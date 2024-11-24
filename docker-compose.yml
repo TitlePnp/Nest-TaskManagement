@@ -1,0 +1,32 @@
+# docker-compose.yml
+services:
+  app:
+    build: .
+    container_name: nest_app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DATABASE_USER: postgres_task_management_admin
+      DATABASE_PASSWORD: JykR41hm2E1Lgpj3yZjB7vRsKXFjVC
+      DATABASE_NAME: task_management
+      JWT_SECRET: dZlO26ltcrigz2AH+2QqpgvEFSmie6/fpdjl8H7rtmk=
+      JWT_EXPIRE: 1h
+
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres_task_management_admin
+      POSTGRES_PASSWORD: JykR41hm2E1Lgpj3yZjB7vRsKXFjVC
+      POSTGRES_DB: task_management
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
