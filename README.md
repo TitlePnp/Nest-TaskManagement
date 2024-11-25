@@ -13,7 +13,7 @@ Application should now be running on `http://localhost:3000`.
 
 ## 🧪 Run test
 
-For run unit test and coverage code
+For run unit test and test coverage code
 
 ```bash
 $ npm run test:cov
