@@ -15,7 +15,7 @@ export class JwtMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
-      throw new HttpException('No token provided', HttpStatus.UNAUTHORIZED);
+      throw new HttpException('Unauthorize', HttpStatus.UNAUTHORIZED);
     }
 
     const token = authHeader.split(' ')[1];

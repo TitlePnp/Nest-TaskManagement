@@ -44,7 +44,11 @@ describe('AuthController', () => {
     const result = await controller.register(registerDto);
 
     expect(authService.register).toHaveBeenCalledWith(registerDto);
-    expect(result).toBe('User registered successfully');
+    expect(result).toEqual({
+      statusCode: 201,
+      message: 'User registered successfully',
+      timestamp: expect.any(String),
+    });
   });
 
   it('should return access token when login successful', async () => {

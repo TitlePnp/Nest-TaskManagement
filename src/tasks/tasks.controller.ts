@@ -17,8 +17,8 @@ import {
   ApiOperation,
   ApiResponse,
   ApiParam,
-  ApiBody,
 } from '@nestjs/swagger';
+import { taskExamples } from './swagger-example';
 
 @ApiBearerAuth('authorization')
 @Controller('tasks')
@@ -27,7 +27,20 @@ export class TasksController {
 
   @Get()
   @ApiOperation({ summary: 'Get list of tasks' })
-  @ApiResponse({ status: 200, description: 'Return list of tasks' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return list of tasks',
+    schema: {
+      example: taskExamples.getTasks,
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+    schema: {
+      example: taskExamples.unauthorized,
+    },
+  })
   async getTasks() {
     return await this.tasksService.getTasks();
   }
@@ -37,7 +50,6 @@ export class TasksController {
   @ApiParam({
     name: 'id',
     description: 'Task ID',
-    example: 'ba484d93-aef7-4c27-a7d4-4356ab10c89f',
     required: true,
     type: String,
   })
@@ -45,24 +57,28 @@ export class TasksController {
     status: 200,
     description: 'Return task detail',
     schema: {
-      example: {
-        id: 'ba484d93-aef7-4c27-a7d4-4356ab10c89f',
-        title: 'Task 1',
-        description: 'Description for task 1',
-        status: 'pending',
-        userId: '123e4567-e89b-12d3-a456-426614174000',
-      },
+      example: taskExamples.getTaskById,
+    },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid UUID format',
+    schema: {
+      example: taskExamples.uuidBadRequest,
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+    schema: {
+      example: taskExamples.unauthorized,
     },
   })
   @ApiResponse({
     status: 404,
     description: 'Task not found',
     schema: {
-      example: {
-        statusCode: 404,
-        message: 'Task not found',
-        error: 'Not Found',
-      },
+      example: taskExamples.notFound,
     },
   })
   async getTaskById(@Param('id') taskId: string) {
@@ -71,16 +87,28 @@ export class TasksController {
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update task by ID' })
-  @ApiBody({
+  @ApiResponse({
+    status: 200,
+    description: 'Task updated successfully',
+    schema: { example: taskExamples.updateTask },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request',
+    schema: { example: taskExamples.createAndUpdateTaskBadRequest },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
     schema: {
-      example: {
-        title: 'Updated Task Title',
-        description: 'Updated task description',
-        status: 'pending',
-      },
+      example: taskExamples.unauthorized,
     },
   })
-  @ApiResponse({ status: 200, description: 'Task updated successfully' })
+  @ApiResponse({
+    status: 404,
+    description: 'Task not found',
+    schema: { example: taskExamples.notFound },
+  })
   async updateTask(
     @Param('id') taskId: string,
     @Body() taskDetail: UpdateTask,
@@ -90,26 +118,25 @@ export class TasksController {
 
   @Post()
   @ApiOperation({ summary: 'Create new task' })
-  @ApiBody({
-    schema: {
-      example: {
-        title: 'New Task',
-        description: 'Task description',
-        status: 'pending',
-      },
-    },
-  })
   @ApiResponse({
     status: 201,
     description: 'Task created successfully',
     schema: {
-      example: {
-        id: 'uuid',
-        title: 'New Task',
-        description: 'Task description',
-        status: 'pending',
-        userId: 'user-uuid',
-      },
+      example: taskExamples.createTask,
+    },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request',
+    schema: {
+      example: taskExamples.createAndUpdateTaskBadRequest,
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+    schema: {
+      example: taskExamples.unauthorized,
     },
   })
   async createTask(@Body() taskDetail: CreateTask, @Req() req: Request) {
@@ -122,28 +149,41 @@ export class TasksController {
   @ApiParam({
     name: 'id',
     description: 'Task ID',
-    example: 'ba484d93-aef7-4c27-a7d4-4356ab10c89f',
     required: true,
     type: String,
   })
   @ApiResponse({
     status: 200,
-    description: 'Return task detail',
-    schema: { example: 'Task deleted successfully' },
+    description: 'Task deleted successfully',
+    schema: { example: taskExamples.deleteTask },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request',
+    schema: {
+      example: taskExamples.uuidBadRequest,
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+    schema: {
+      example: taskExamples.unauthorized,
+    },
   })
   @ApiResponse({
     status: 404,
     description: 'Task not found',
     schema: {
-      example: {
-        statusCode: 404,
-        message: 'Task not found',
-        error: 'Not Found',
-      },
+      example: taskExamples.notFound,
     },
   })
   async deleteTask(@Param('id') taskId: string) {
     await this.tasksService.deleteTask(taskId);
-    return 'Task deleted successfully';
+    return {
+      statusCode: 200,
+      message: 'Task deleted successfully',
+      timestamp: new Date().toISOString(),
+    };
   }
 }

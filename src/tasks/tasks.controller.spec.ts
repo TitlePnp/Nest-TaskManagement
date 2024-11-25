@@ -122,6 +122,10 @@ describe('TasksController', () => {
     const result = await controller.deleteTask(taskId);
 
     expect(tasksService.deleteTask).toHaveBeenCalledWith(taskId);
-    expect(result).toBe('Task deleted successfully');
+    expect(result).toEqual({
+      statusCode: 200,
+      message: 'Task deleted successfully',
+      timestamp: expect.any(String),
+    });
   });
 });

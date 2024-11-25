@@ -21,9 +21,7 @@ describe('JwtMiddleware', () => {
     const res = {} as Response;
     const next = jest.fn() as NextFunction;
 
-    expect(() => jwtMiddleware.use(req, res, next)).toThrow(
-      'No token provided',
-    );
+    expect(() => jwtMiddleware.use(req, res, next)).toThrow('Unauthorize');
   });
 
   it('should throw an error if token is expired', () => {

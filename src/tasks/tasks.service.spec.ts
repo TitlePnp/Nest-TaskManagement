@@ -5,6 +5,7 @@ import { Tasks, TaskStatus } from './entities/tasks.entity';
 import { Repository } from 'typeorm';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { CreateTask } from './dto/createTask.dto';
+import { v4 as uuidv4 } from 'uuid';
 
 describe('TasksService', () => {
   let service: TasksService;
@@ -65,7 +66,7 @@ describe('TasksService', () => {
 
   describe('getTaskById', () => {
     it('should return task by id', async () => {
-      const taskId = '1';
+      const taskId = uuidv4();
       const mockTask: Tasks = {
         id: taskId,
         title: 'task1',
@@ -81,8 +82,16 @@ describe('TasksService', () => {
       expect(result).toEqual(mockTask);
     });
 
+    it('should throw error if task id is invalid', async () => {
+      const taskId = 'invalid-uuid';
+
+      await expect(service.getTaskById(taskId)).rejects.toThrow(
+        new HttpException('Invalid UUID format', HttpStatus.BAD_REQUEST),
+      );
+    });
+
     it('should throw error if task not found', async () => {
-      const taskId = '1';
+      const taskId = uuidv4();
       mockTasksRepository.findOne.mockResolvedValue(null);
 
       await expect(service.getTaskById(taskId)).rejects.toThrow(
@@ -93,7 +102,7 @@ describe('TasksService', () => {
 
   describe('updateTask', () => {
     it('should update task successfully', async () => {
-      const taskId = '1';
+      const taskId = uuidv4();
       const mockTask: Tasks = {
         id: taskId,
         title: 'task1',
@@ -119,8 +128,47 @@ describe('TasksService', () => {
       expect(result).toEqual({ ...mockTask, ...updateTask });
     });
 
+    it('should update task without description', async () => {
+      const taskId = uuidv4();
+      const mockTask: Tasks = {
+        id: taskId,
+        title: 'task1',
+        description: 'description1',
+        status: TaskStatus.COMPLETED,
+        userId: '1',
+      };
+
+      const updateTask = {
+        title: 'task1',
+        status: TaskStatus.PENDING,
+      };
+
+      mockTasksRepository.findOne.mockResolvedValue(mockTask);
+      mockTasksRepository.save.mockResolvedValue({
+        ...mockTask,
+        ...updateTask,
+      });
+
+      const result = await service.updateTask(taskId, updateTask);
+
+      expect(result).toEqual({ ...mockTask, ...updateTask });
+    });
+
+    it('should throw error if task id is invalid', async () => {
+      const taskId = 'invalid-uuid';
+      const updateTask = {
+        title: 'task1',
+        description: 'description1',
+        status: TaskStatus.PENDING,
+      };
+
+      await expect(service.updateTask(taskId, updateTask)).rejects.toThrow(
+        new HttpException('Invalid UUID format', HttpStatus.BAD_REQUEST),
+      );
+    });
+
     it('should throw error if task not found', async () => {
-      const taskId = '1';
+      const taskId = uuidv4();
       const updateTask = {
         title: 'task1',
         description: 'description1',
@@ -145,7 +193,7 @@ describe('TasksService', () => {
       const userId = '1';
 
       const mockTask: Tasks = {
-        id: '1',
+        id: uuidv4(),
         title: taskDetail.title,
         description: taskDetail.description,
         status: taskDetail.status,
@@ -181,7 +229,7 @@ describe('TasksService', () => {
 
   describe('deleteTask', () => {
     it('should delete task successfully', async () => {
-      const taskId = '1';
+      const taskId = uuidv4();
       mockTasksRepository.findOne.mockResolvedValue({ id: taskId });
       mockTasksRepository.delete.mockResolvedValue(undefined);
 
@@ -193,8 +241,16 @@ describe('TasksService', () => {
       expect(tasksRepository.delete).toHaveBeenCalledWith(taskId);
     });
 
+    it('should throw error if task id is invalid', async () => {
+      const taskId = 'invalid-uuid';
+
+      await expect(service.deleteTask(taskId)).rejects.toThrow(
+        new HttpException('Invalid UUID format', HttpStatus.BAD_REQUEST),
+      );
+    });
+
     it('should throw error if task not found', async () => {
-      const taskId = '1';
+      const taskId = uuidv4();
       mockTasksRepository.findOne.mockResolvedValue(null);
 
       await expect(service.deleteTask(taskId)).rejects.toThrow(

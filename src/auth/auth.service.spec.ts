@@ -69,7 +69,7 @@ describe('AuthService', () => {
       mockUsersRepository.findOne.mockResolvedValue({ id: 1 });
 
       await expect(authService.register(userData)).rejects.toThrow(
-        new HttpException('User already exists', HttpStatus.BAD_REQUEST),
+        new HttpException('User already exists', HttpStatus.CONFLICT),
       );
     });
   });
@@ -101,10 +101,12 @@ describe('AuthService', () => {
         if (key === 'JWT_EXPIRE') return tokenExpire;
       });
 
+      jest.spyOn(jwt, 'sign').mockImplementation(() => accessToken);
+
       const result = await authService.login(loginData);
 
       expect(result).toHaveProperty('accessToken');
-      expect(result.accessToken).toBe(accessToken);
+      expect(result.accessToken).toEqual(accessToken);
     });
 
     it('should throw error if user not found', async () => {

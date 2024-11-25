@@ -1,8 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, HttpCode } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/registerUser.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { LoginUserDto } from './dto/loginUser.dto';
+import { AuthExample } from './swgger-example';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -14,58 +15,58 @@ export class AuthController {
   @ApiResponse({
     status: 201,
     description: 'User registered successfully',
-    schema: { example: 'User registered successfully' },
+    schema: { example: AuthExample.register },
   })
   @ApiResponse({
     status: 400,
     description: 'Bad Request',
     schema: {
-      example: {
-        statusCode: 400,
-        message: [
-          'email must be shorter than or equal to 100 characters',
-          'email must be an email',
-          'email must be a string',
-          'password must be shorter than or equal to 255 characters',
-          'password should not be empty',
-          'password must be a string',
-        ],
-        timestamp: '2024-11-24T17:13:18.073Z',
-      },
+      example: AuthExample.badRequest,
+    },
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'User already exists',
+    schema: {
+      example: AuthExample.userAlreadyExists,
     },
   })
   async register(@Body() registerUserDto: RegisterUserDto) {
     await this.authService.register(registerUserDto);
-    return 'User registered successfully';
+    return {
+      statusCode: 201,
+      message: 'User registered successfully',
+      timestamp: new Date().toISOString(),
+    };
   }
 
   @Post('login')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Login user' })
   @ApiResponse({
     status: 200,
     description: 'Return JWT token',
-    schema: { example: 'access-token' },
+    schema: { example: AuthExample.login },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request',
+    schema: {
+      example: AuthExample.badRequest,
+    },
   })
   @ApiResponse({
     status: 401,
     description: 'Unauthorized',
     schema: {
-      example: {
-        statusCode: 401,
-        message: 'Unauthorize',
-        timestamp: '2024-11-24T17:31:16.401Z',
-      },
+      example: AuthExample.unauthorized,
     },
   })
   @ApiResponse({
-    status: 401,
-    description: 'Token has expired',
+    status: 404,
+    description: 'Not Found User',
     schema: {
-      example: {
-        statusCode: 401,
-        message: 'Token has expired',
-        timestamp: '2024-11-24T17:33:03.215Z',
-      },
+      example: AuthExample.notFoundUser,
     },
   })
   async login(@Body() registerUserDto: LoginUserDto) {

@@ -24,7 +24,7 @@ export class AuthService {
       });
 
       if (checkUserExists) {
-        throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+        throw new HttpException('User already exists', HttpStatus.CONFLICT);
       }
 
       const user = new Users();
