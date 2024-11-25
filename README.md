@@ -1,8 +1,8 @@
-## Description
+## 📖 Description
 
-This project is a basic CRUD API for Task Management by Nest.js framework.
+This project is a basic CRUD (Create, Read, Update, Delete) API for Task Management build using the Nest.js framework. It provides endpoints for user authentication, task creation, retrieval, updating, and deletion. The application uses a PostgreSQL database to store and manage task data.
 
-## Project setup
+## 🔨 Project setup
 
 ```bash
 $ docker-compose build --no-cache
@@ -11,18 +11,30 @@ $ docker-compose up
 
 Application should now be running on `http://localhost:3000`.
 
-## Run test
+## 🧪 Run test
+
+For run unit test and coverage code
 
 ```bash
-# For coverage test
 $ npm run test:cov
 ```
 
-## API Documentation
+## 📚 API Documentation
 
 For Access Swagger Docs accessible at http://localhost:3000/api/docs.
 
-## Example Requests
+## 🔑 Key Architectural Decisions
+
+1. **bcrppt**: Used for hashing passwords before storing in database. 
+2. **class-validator**: Used for validate DTO and request body 
+3. **typeorm**: Used TypeORM as the ORM for interacting with the PostgreSQL database.
+4. **Swagger (swagger-ui-express)**: Used for generate API documentations.
+5. **JWT (jasonwebtoken)**: Used for authentication and authorization.
+6. **Docker**: Used for containerizing the application and database.
+7. **Nest.js**: Used as the main framework build the application.
+8. **PostgreSQL**: Used as the primary database for storing application data. 
+
+## 🚀 Example Requests
 
 ### Register
 
@@ -30,17 +42,12 @@ For Access Swagger Docs accessible at http://localhost:3000/api/docs.
 
 ```bash
 POST /auth/register
-Body: { email: 'user@demo.com', password: 'depassword'}
 Authorization: Bearer <access-token>
-```
 
-**Response:**
-
-```bash
+Body:
 {
-  "statusCode": 201,
-  "message": "User registered successfully",
-  "timestamp": 2024-11-24T17:13:18.073Z
+  email: 'user@example.com',
+  password: 'password123'
 }
 ```
 
@@ -50,15 +57,12 @@ Authorization: Bearer <access-token>
 
 ```bash
 POST /auth/login
-Body: { email: 'user@demo.com', password: 'depassword'}
 Authorization: Bearer <access-token>
-```
 
-**Response:**
-
-```bash
+Body:
 {
-  "accessToken": "access-token"
+  email: 'user@example.com',
+  password: 'password123'
 }
 ```
 
@@ -71,27 +75,57 @@ GET /tasks
 Authorization: Bearer <access-token>
 ```
 
-**Response:**
+### Get task by id
+
+**Request:**
 
 ```bash
-[
-  {
-    id: 'ba484d93-aef7-4c27-a7d4-4356ab10c89f',
-    title: 'Task 1',
-    description: 'Description for task 1',
-    status: 'pending',
-    userId: '123e4567-e89b-12d3-a456-426614174000',
-  },
-  {
-    id: 'f3b9b5b7-1b3f-4a6f-8f5b-1f3b4a6f8f5b',
-    title: 'Task 2',
-    description: 'Description for task 2',
-    status: 'completed',
-    userId: '123e4567-e89b-12d3-a456-426614174000',
-  },
-]
+GET /tasks/:id
+Authorization: Bearer <access-token>
+
+Params: "task-uuid"
 ```
 
-## License
+### Create task
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+**Request:**
+
+```bash
+POST /tasks
+Authorization: Bearer <access-token>
+
+Body:
+{
+  title: 'NewTask1',
+  description: 'NewTask Description',
+  status: 'in_progress'
+}
+```
+
+### Update task
+
+**Request:**
+
+```bash
+PATCH /tasks/:id
+Authorization: Bearer <access-token>
+
+Params: "task-uuid" 
+Body:
+{
+  title: 'UpdatedTitleTask1',
+  description: 'Update Description Task1',
+  status: 'completed'
+}
+```
+
+### Delete task
+
+**Request:**
+
+```bash
+DELETE /tasks/:id
+Authorization: Bearer <access-token>
+
+Params: "task-uuid" 
+```
