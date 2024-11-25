@@ -6,6 +6,7 @@ import { Users } from '../users/entities/users.entity';
 import { ConfigService } from '@nestjs/config';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -73,6 +74,8 @@ describe('AuthService', () => {
 
   describe('login', () => {
     it('should return access token when login successful', async () => {
+      const jwtSecret = 'test-secret';
+      const tokenExpire = '1h';
       const loginData = {
         email: 'test@test.com',
         password: 'password123',
@@ -84,15 +87,22 @@ describe('AuthService', () => {
         password: await bcrypt.hash(loginData.password, 10),
       };
 
+      const accessToken = jwt.sign(
+        { email: loginData.email, sub: mockUser.id },
+        jwtSecret,
+        { expiresIn: tokenExpire },
+      );
+
       mockUsersRepository.findOne.mockResolvedValue(mockUser);
       mockConfigService.get.mockImplementation((key) => {
-        if (key === 'JWT_SECRET') return 'test-secret';
-        if (key === 'JWT_EXPIRE') return '1h';
+        if (key === 'JWT_SECRET') return jwtSecret;
+        if (key === 'JWT_EXPIRE') return tokenExpire;
       });
 
       const result = await authService.login(loginData);
 
       expect(result).toHaveProperty('accessToken');
+      expect(result.accessToken).toBe(accessToken);
     });
 
     it('should throw error if user not found', async () => {
