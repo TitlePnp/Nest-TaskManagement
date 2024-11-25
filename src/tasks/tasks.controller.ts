@@ -65,7 +65,6 @@ export class TasksController {
       },
     },
   })
-  @ApiResponse({ status: 200, description: 'Return list of tasks' })
   async getTaskById(@Param('id') taskId: string) {
     return this.tasksService.getTaskById(taskId);
   }

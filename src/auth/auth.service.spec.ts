@@ -7,6 +7,8 @@ import { ConfigService } from '@nestjs/config';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import { LoginUserDto } from './dto/loginUser.dto';
+import { RegisterUserDto } from './dto/registerUser.dto';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -44,7 +46,7 @@ describe('AuthService', () => {
 
   describe('register', () => {
     it('should register a new user successfully', async () => {
-      const userData = {
+      const userData: RegisterUserDto = {
         email: 'test@test.com',
         password: 'password123',
       };
@@ -59,7 +61,7 @@ describe('AuthService', () => {
     });
 
     it('should throw error if user already exists', async () => {
-      const userData = {
+      const userData: RegisterUserDto = {
         email: 'test@test.com',
         password: 'password123',
       };
@@ -106,7 +108,7 @@ describe('AuthService', () => {
     });
 
     it('should throw error if user not found', async () => {
-      const loginData = {
+      const loginData: LoginUserDto = {
         email: 'test@test.com',
         password: 'password123',
       };
@@ -119,7 +121,7 @@ describe('AuthService', () => {
     });
 
     it('should throw error if password invalid', async () => {
-      const loginData = {
+      const loginData: LoginUserDto = {
         email: 'test@test.com',
         password: 'wrongpassword',
       };

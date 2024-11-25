@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/registerUser.dto';
+import { LoginUserDto } from './dto/loginUser.dto';
 import * as jwt from 'jsonwebtoken';
 
 describe('AuthController', () => {
@@ -47,7 +48,7 @@ describe('AuthController', () => {
   });
 
   it('should return access token when login successful', async () => {
-    const loginDto = {
+    const loginDto: LoginUserDto = {
       email: 'test@test.com',
       password: 'password123',
     };

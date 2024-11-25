@@ -55,6 +55,7 @@ export class TasksService {
     if (!checkTask) {
       throw new HttpException('Not Found Task', HttpStatus.NOT_FOUND);
     }
+
     await this.tasksRepository.delete(id);
   }
 }
