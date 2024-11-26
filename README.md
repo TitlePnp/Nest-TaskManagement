@@ -27,9 +27,15 @@ For Access Swagger Docs accessible at http://localhost:3000/api/docs
 
 ### Folder Structure
 1. **AuthModule**: Handle authentication and authorization.
+   - Contains logic for user login and registration.
 2. **UsersModule**: User-related database operation.
-3. **TasksModule**: Task management function and CRUD operations for tasks.
-4. **Common**: Shared utility and middleware (JWTMiddlewarem, HttpExceptionFilter).
+   - Contains user entity and repository.
+3. **TasksModule**: Task management function and CRUD operations.
+   - Contains task entity and repository.
+   - Provides endpoints for creating, reading, updating, and deleting tasks.
+4. **Common**: Shared utility and middleware.
+   - **JWTMiddleware**: Middleware for validating JWT tokens.
+   - **HttpExceptionFilter**: Global filter for handle and formatting HTTP exceptions.
 
 ### Stack
 1. **bcrppt**: Used for hashing passwords before storing in database. 
@@ -40,7 +46,6 @@ For Access Swagger Docs accessible at http://localhost:3000/api/docs
 6. **Docker**: Used for containerizing the application and database.
 7. **Nest.js**: Used as the main framework build the application.
 8. **PostgreSQL**: Used as the primary database for storing application data.
-8. **Exception Filter**: Used for filter error responses across application provide consistent error response format.
 
 ## 🚀 Example Requests
 
