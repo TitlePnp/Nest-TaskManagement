@@ -55,7 +55,6 @@ For Access Swagger Docs accessible at http://localhost:3000/api/docs
 
 ```bash
 POST /auth/register
-Authorization: Bearer <access-token>
 
 Body:
 {
@@ -70,7 +69,6 @@ Body:
 
 ```bash
 POST /auth/login
-Authorization: Bearer <access-token>
 
 Body:
 {
