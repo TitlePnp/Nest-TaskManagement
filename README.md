@@ -32,7 +32,8 @@ For Access Swagger Docs accessible at http://localhost:3000/api/docs.
 5. **JWT (jasonwebtoken)**: Used for authentication and authorization.
 6. **Docker**: Used for containerizing the application and database.
 7. **Nest.js**: Used as the main framework build the application.
-8. **PostgreSQL**: Used as the primary database for storing application data. 
+8. **PostgreSQL**: Used as the primary database for storing application data.
+8. **Exception Filter**: Used for filter error responses across application provide consistent error response format.
 
 ## 🚀 Example Requests
 
