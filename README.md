@@ -9,7 +9,7 @@ $ docker-compose build --no-cache
 $ docker-compose up
 ```
 
-Application should now be running on `http://localhost:3000`.
+Application should now be running on http://localhost:3000
 
 ## 🧪 Run test
 
@@ -21,7 +21,7 @@ $ npm run test:cov
 
 ## 📚 API Documentation
 
-For Access Swagger Docs accessible at http://localhost:3000/api/docs.
+For Access Swagger Docs accessible at http://localhost:3000/api/docs
 
 ## 🔑 Key Architectural Decisions
 
