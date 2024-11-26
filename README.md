@@ -25,6 +25,13 @@ For Access Swagger Docs accessible at http://localhost:3000/api/docs
 
 ## 🔑 Key Architectural Decisions
 
+### Folder Structure
+1. **AuthModule**: Handle authentication and authorization.
+2. **UsersModule**: User-related database operation.
+3. **TasksModule**: Task management function and CRUD operations for tasks.
+4. **Common**: Shared utility and middleware (JWTMiddlewarem, HttpExceptionFilter).
+
+### Stack
 1. **bcrppt**: Used for hashing passwords before storing in database. 
 2. **class-validator**: Used for validate DTO and request body 
 3. **typeorm**: Used TypeORM as the ORM for interacting with the PostgreSQL database.
