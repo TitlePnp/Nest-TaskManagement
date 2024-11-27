@@ -28,50 +28,16 @@ export class TasksService {
   }
 
   async updateTask(id: string, taskDetail: UpdateTask): Promise<Tasks> {
-    // if (!isUUID(id)) {
-    //   throw new HttpException('Invalid UUID format', HttpStatus.BAD_REQUEST);
-    // }
-    // const task = await this.tasksRepository.findOne({ where: { id } });
-
-    // if (!task) {
-    //   throw new HttpException('Not Found Task', HttpStatus.NOT_FOUND);
-    // }
-
-    // task.title = taskDetail.title;
-    // if (taskDetail.description) {
-    //   task.description = taskDetail.description;
-    // }
-    // task.status = taskDetail.status;
-
-    const task = await this.tasksRepository.findByPk(id);
-
+    const task = await this.getTaskById(id);
     return await task.update({ ...taskDetail, id });
   }
 
   async createTask(taskDetail: CreateTask, userId: string): Promise<Tasks> {
-    // const task = new Tasks();
-    // task.title = taskDetail.title;
-    // if (taskDetail.description) {
-    //   task.description = taskDetail.description;
-    // }
-    // task.status = taskDetail.status;
-    // task.userId = userId;
-
     return await this.tasksRepository.create({ ...taskDetail, userId });
   }
 
   async deleteTask(id: string): Promise<void> {
-    // if (!isUUID(id)) {
-    //   throw new HttpException('Invalid UUID format', HttpStatus.BAD_REQUEST);
-    // }
-    // const checkTask = await this.tasksRepository.findOne({ where: { id } });
-    // if (!checkTask) {
-    //   throw new HttpException('Not Found Task', HttpStatus.NOT_FOUND);
-    // }
-
-    // await this.tasksRepository.delete(id);
-    const task = await this.tasksRepository.findByPk(id);
-
+    const task = await this.getTaskById(id);
     await task.destroy();
   }
 }
