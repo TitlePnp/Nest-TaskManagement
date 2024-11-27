@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
 export enum TaskStatus {
   PENDING = 'pending',
@@ -6,25 +6,38 @@ export enum TaskStatus {
   COMPLETED = 'completed',
 }
 
-@Entity()
-export class Tasks {
-  @PrimaryGeneratedColumn('uuid')
+@Table
+export class Tasks extends Model {
+  @Column({
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
+    primaryKey: true,
+  })
   id: string;
 
-  @Column({ nullable: false })
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
   title: string;
 
-  @Column({ nullable: true })
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
   description: string;
 
   @Column({
-    type: 'enum',
-    enum: TaskStatus,
-    default: TaskStatus.PENDING,
-    nullable: false,
+    type: DataType.ENUM,
+    values: Object.values(TaskStatus),
+    defaultValue: TaskStatus.PENDING,
+    allowNull: false,
   })
   status: TaskStatus;
 
-  @Column({ nullable: false })
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
   userId: string;
 }

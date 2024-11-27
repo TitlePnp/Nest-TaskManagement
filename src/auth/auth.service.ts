@@ -1,8 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { RegisterUserDto } from './dto/registerUser.dto';
 import { Users } from '../users/entities/users.entity';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectModel } from '@nestjs/sequelize';
 import { LoginUserDto } from './dto/loginUser.dto';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
@@ -11,8 +10,8 @@ import * as jwt from 'jsonwebtoken';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(Users)
-    private readonly usersRepository: Repository<Users>,
+    @InjectModel(Users)
+    private readonly usersRepository: typeof Users,
     private configService: ConfigService,
   ) {}
 
@@ -27,11 +26,9 @@ export class AuthService {
         throw new HttpException('User already exists', HttpStatus.CONFLICT);
       }
 
-      const user = new Users();
-      user.email = email;
-      user.password = await bcrypt.hash(password, 10);
+      const hashedPassword = await bcrypt.hash(password, 10);
 
-      return this.usersRepository.save(user);
+      return this.usersRepository.create({ email, password: hashedPassword });
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;
