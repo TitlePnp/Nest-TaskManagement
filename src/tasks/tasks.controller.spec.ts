@@ -39,14 +39,14 @@ describe('TasksController', () => {
         description: 'description1',
         status: TaskStatus.COMPLETED,
         userId: '1',
-      },
+      } as Tasks,
       {
         id: '2',
         title: 'task2',
         description: 'description2',
         status: TaskStatus.PENDING,
         userId: '2',
-      },
+      } as Tasks,
     ];
   });
 

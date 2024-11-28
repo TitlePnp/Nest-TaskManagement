@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
-import { getRepositoryToken } from '@nestjs/typeorm';
 import { Users } from '../users/entities/users.entity';
+import { getModelToken } from '@nestjs/sequelize';
 import { ConfigService } from '@nestjs/config';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
@@ -17,7 +17,7 @@ describe('AuthService', () => {
 
   const mockUsersRepository = {
     findOne: jest.fn(),
-    save: jest.fn(),
+    create: jest.fn(),
   };
 
   const mockConfigService = {
@@ -29,7 +29,7 @@ describe('AuthService', () => {
       providers: [
         AuthService,
         {
-          provide: getRepositoryToken(Users),
+          provide: getModelToken(Users),
           useValue: mockUsersRepository,
         },
         {
@@ -40,7 +40,7 @@ describe('AuthService', () => {
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
-    usersRepository = module.get(getRepositoryToken(Users));
+    usersRepository = module.get(getModelToken(Users));
     configService = module.get<ConfigService>(ConfigService);
   });
 
@@ -52,7 +52,7 @@ describe('AuthService', () => {
       };
 
       mockUsersRepository.findOne.mockResolvedValue(null);
-      mockUsersRepository.save.mockResolvedValue({ ...userData, id: 1 });
+      mockUsersRepository.create.mockResolvedValue({ ...userData, id: 1 });
 
       const result = await authService.register(userData);
 

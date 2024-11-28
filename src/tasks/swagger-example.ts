@@ -6,6 +6,8 @@ export const taskExamples = {
       description: 'Description for task 1',
       status: 'pending',
       userId: '123e4567-e89b-12d3-a456-426614174000',
+      createdAt: '2024-11-25T10:26:49.291Z',
+      updatedAt: '2024-11-25T10:26:49.291Z',
     },
     {
       id: 'f3b9b5b7-1b3f-4a6f-8f5b-1f3b4a6f8f5b',
@@ -13,6 +15,8 @@ export const taskExamples = {
       description: 'Description for task 2',
       status: 'completed',
       userId: '123e4567-e89b-12d3-a456-426614174000',
+      createdAt: '2024-11-25T10:30:49.291Z',
+      updatedAt: '2024-11-25T10:30:49.291Z',
     },
   ],
   getTaskById: {
@@ -21,13 +25,17 @@ export const taskExamples = {
     description: 'Description for task 1',
     status: 'pending',
     userId: '123e4567-e89b-12d3-a456-426614174000',
+    createdAt: '2024-11-25T10:26:49.291Z',
+    updatedAt: '2024-11-25T10:26:49.291Z',
   },
   createTask: {
+    id: 'uuid',
     title: 'New Task',
+    description: 'Task description',
     status: 'pending',
     userId: 'user-uuid',
-    description: 'Task description',
-    id: 'uuid',
+    updatedAt: '2024-11-27T16:40:20.331Z',
+    createdAt: '2024-11-27T16:40:20.331Z',
   },
   createTaskBody: {
     title: 'New Task',
@@ -51,6 +59,8 @@ export const taskExamples = {
     description: 'Updated task description',
     status: 'pending',
     userId: 'user-uuid',
+    createdAt: '2024-11-27T15:08:13.956Z',
+    updatedAt: '2024-11-27T15:08:13.956Z',
   },
   deleteTask: {
     statusCode: 200,
