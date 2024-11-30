@@ -64,7 +64,7 @@ POST /auth/register
 
 Body:
 {
-  email: 'user@example.com',
+  email: 'admin@example.com',
   password: 'password123'
 }
 ```
@@ -78,7 +78,7 @@ POST /auth/login
 
 Body:
 {
-  email: 'user@example.com',
+  email: 'admin@example.com',
   password: 'password123'
 }
 ```
@@ -100,7 +100,7 @@ Authorization: Bearer <access-token>
 GET /tasks/:id
 Authorization: Bearer <access-token>
 
-Params: "task-uuid"
+Params: "5a3b8c84-d259-4206-894d-f15f1ec369c1"
 ```
 
 ### Create task
@@ -127,7 +127,7 @@ Body:
 PATCH /tasks/:id
 Authorization: Bearer <access-token>
 
-Params: "task-uuid" 
+Params: "5a3b8c84-d259-4206-894d-f15f1ec369c1" 
 Body:
 {
   title: 'UpdatedTitleTask1',
@@ -144,5 +144,5 @@ Body:
 DELETE /tasks/:id
 Authorization: Bearer <access-token>
 
-Params: "task-uuid" 
+Params: "5a3b8c84-d259-4206-894d-f15f1ec369c1" 
 ```
