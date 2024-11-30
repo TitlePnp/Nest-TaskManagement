@@ -50,6 +50,7 @@ export class TasksController {
   @ApiParam({
     name: 'id',
     description: 'Task ID',
+    example: '5a3b8c84-d259-4206-894d-f15f1ec369c1',
     required: true,
     type: String,
   })
@@ -109,6 +110,13 @@ export class TasksController {
     description: 'Task not found',
     schema: { example: taskExamples.notFound },
   })
+  @ApiParam({
+    name: 'id',
+    description: 'The ID of the task to update',
+    example: '5a3b8c84-d259-4206-894d-f15f1ec369c1',
+    required: true,
+    type: String,
+  })
   async updateTask(
     @Param('id') taskId: string,
     @Body() taskDetail: UpdateTask,
@@ -149,6 +157,7 @@ export class TasksController {
   @ApiParam({
     name: 'id',
     description: 'Task ID',
+    example: '5a3b8c84-d259-4206-894d-f15f1ec369c1',
     required: true,
     type: String,
   })

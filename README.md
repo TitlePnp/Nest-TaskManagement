@@ -36,11 +36,17 @@ For Access Swagger Docs accessible at http://localhost:3000/api/docs
 4. **Common**: Shared utility and middleware.
    - **JWTMiddleware**: Middleware for validating JWT tokens.
    - **HttpExceptionFilter**: Global filter for handle and formatting HTTP exceptions.
+5. **Migrations**: Database schema changes.
+   - Contains migration files for creating and altering database tables.
+6. **Seeders**: Initial data population.
+   - Contains seeder files for populating the database with initial data.
+7. **Config**: Configuration files.
+   - Contains configuration files for different environments.
 
 ### Stack
 1. **bcrppt**: Used for hashing passwords before storing in database. 
 2. **class-validator**: Used for validate DTO and request body 
-3. **typeorm**: Used TypeORM as the ORM for interacting with the PostgreSQL database.
+3. **Sequelize**: Used Sequelize as the ORM for interacting with the PostgreSQL database.
 4. **Swagger (swagger-ui-express)**: Used for generate API documentations.
 5. **JWT (jasonwebtoken)**: Used for authentication and authorization.
 6. **Docker**: Used for containerizing the application and database.

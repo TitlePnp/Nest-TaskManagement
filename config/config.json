@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres_task_management_admin",
+    "password": "JykR41hm2E1Lgpj3yZjB7vRsKXFjVC",
+    "database": "task_management",
+    "host": "db",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres_task_management_admin",
+    "password": "JykR41hm2E1Lgpj3yZjB7vRsKXFjVC",
+    "database": "task_management",
+    "host": "db",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres_task_management_admin",
+    "password": "JykR41hm2E1Lgpj3yZjB7vRsKXFjVC",
+    "database": "task_management",
+    "host": "db",
+    "dialect": "postgres"
+  }
+}
